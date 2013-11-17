@@ -471,6 +471,9 @@ final class Social_Facebook {
 		if ($service->key() == 'facebook' && get_post_format($post) != 'status') {
 			$format = trim(str_replace('{url}', '', $format));
 		}
+		else if (get_post_format($post) == 'status') {
+			$format = trim(str_replace('{title}', '{content}', $format));
+		}
 		return $format;
 	}
 	
