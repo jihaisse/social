@@ -401,6 +401,13 @@ abstract class Social_Service {
 					}
 					$url = apply_filters('social_broadcast_permalink', $url, $post, $this);
 					$content = esc_url($url);
+					// if it's a status, just send a permashortcitation http://indiewebcamp.com/permashortcitation
+					if (get_post_format($post) == 'status') {
+						$server = $_SERVER['HTTP_HOST'];
+						$post_id = str_replace('http://'.$server.'/', '', $url);
+						$url = '('.$server.' '.$post_id.')';
+						$content = $url;
+					}
 					break;
 				case '{title}':
 					$content = htmlspecialchars_decode($post->post_title);
