@@ -400,21 +400,21 @@ abstract class Social_Service {
 						$url = home_url('?p='.$post->ID);
 					}
 					$url = apply_filters('social_broadcast_permalink', $url, $post, $this);
-					$content = esc_url($url);
+					$content = esc_url_raw($url);
 					// if it's a status, just send a permashortcitation http://indiewebcamp.com/permashortcitation
 					if (get_post_format($post) == 'status') {
 						$server = $_SERVER['HTTP_HOST'];
 						$post_id = str_replace('http://'.$server.'/', '', $url);
 						$url = '('.$server.' '.$post_id.')';
 						$content = $url;
-					}
-					break;
+					}					break;
 				case '{title}':
 					$content = htmlspecialchars_decode($post->post_title);
 					break;
 				case '{content}':
 					$content = do_shortcode($post->post_content);
 					$content = htmlspecialchars_decode(strip_tags($content));
+					$content = preg_replace('/[^\S\n]+/', ' ', $content);
 					break;
 				case '{author}':
 					$user = get_userdata($post->post_author);
